@@ -8,7 +8,7 @@ begin
     gem.summary = %Q{Schemaless Mongo ORM for Rails 3.0}
     gem.description = %Q{Schemaless Mongo ORM for Rails 3.0}
     gem.email = "mantas@idev.lt"
-    gem.homepage = "http://github.com/mantas/active_mongo"
+    gem.homepage = "http://github.com/mantas/ActiveMongo"
     gem.authors = ["Mantas Masalskis"]
     gem.add_development_dependency "thoughtbot-shoulda", ">= 0"
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings

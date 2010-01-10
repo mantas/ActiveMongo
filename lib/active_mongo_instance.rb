@@ -29,8 +29,8 @@ ActiveMongo::Base.class_eval do
     return h
   end
   
-  def save
-    return false if !self.valid?
+  def save(do_validate = true)
+    return false if do_validate && !self.valid?
     
     id = self.class.collection.save(self.to_hash)
     
@@ -76,6 +76,10 @@ ActiveMongo::Base.class_eval do
   end
   
   def unset(var)
+    self.set_var(var, nil)
+    
+    @vars.delete var.to_sym
+    
     return false if self.new_record?
     
     hash = self.class.collection.find_one self._id
@@ -84,9 +88,6 @@ ActiveMongo::Base.class_eval do
     
     self.class.collection.save(hash)
     
-    self.set_value(var, nil)
-    
-    @vars.delete var.to_sym
     
     true
   end

@@ -1,0 +1,91 @@
+h1. ActiveMongo
+
+ActiveMongo is a Rails 3.0 and Ruby 1.9 compatible Mongo ORM.
+
+It currently supports all common validations, find (single or many items) and has_many association.
+
+Feel free to it if you're adventurous.
+
+h2. Installation
+
+# Add to your Rails application Gemfile
+# Run gem bundle
+# Load gem. For example, create initializer that says "require 'active_mongo'"
+# Create config/mongo.yml. Format is the same as database.yml. Database, host and port are required
+# Create a model, which is a subclass of ActiveMonog::Base
+
+h2. Usage
+
+h3. Validations
+
+All ActiveModel validations are supported. validates_uniqueness_of with optional :scope => [:column] is available too.
+
+h3. Collection methods
+
+<pre><code>
+  Model.find(ID) # get by ID
+  Model.find #get whole collection
+  Model.find(args) #run a query, args are the same as for mongo_ruby_driver 
+  
+  Model.destroy_all
+  Model.destroy_all(args)
+</code></pre>
+
+h3. Create an object
+
+<pre><code>
+  Model.new()
+  Model.new(:attribute => "value")
+  
+  Model.save
+</code></pre>
+
+h3. Update an object
+
+<pre><code>
+  object.attribute = "value" #No need to declare anywhere before setting, see?
+  object.update_attributes(:attribute => "value") #does not save!
+  
+  object.unset(:attribute) #removes :attribute from the object and saves ONLY this change
+  
+  object.save
+  object.save(false) #do not run validations
+</code></pre>
+
+h3. Destroy object
+
+<pre><code>
+  object.destroy
+</code></pre>
+
+h3. HasMany Associations
+
+<pre><code>
+  #in model
+  has_many :items#, :class_name => "Item", :foreign_key => "item_id"
+  
+  #in code
+  object.items.find()
+  object.items.remove_all()
+  object.items.new()
+</code></pre>
+
+h3. Mass assignment
+
+You can limit what may be assigned by passing a hash to #new or #update_attributes with this option.
+
+<pre><code>
+  attr_accessible :attribute
+</code></pre>
+
+h2. Coming soon
+
+* Named scopes
+* Callbacks
+* Tests
+* Mongo authentication support
+* Documentation
+
+h2. License
+
+This code is distributed under MIT license.

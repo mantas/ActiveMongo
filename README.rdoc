@@ -1,7 +1,0 @@
-ActiveMongo is a Rails 3.0 and Ruby 1.9 compatible Mongo ORM.
-
-Currently supports all common validations, find (single or many items) and has_many association.
-
-Feel free to it if you're adventurous.
-
-This code is distrubuted under MIT license.
