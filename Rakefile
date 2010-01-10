@@ -5,8 +5,8 @@ begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
     gem.name = "active_mongo"
-    gem.summary = %Q{TODO: one-line summary of your gem}
-    gem.description = %Q{TODO: longer description of your gem}
+    gem.summary = %Q{Schemaless Mongo ORM for Rails 3.0}
+    gem.description = %Q{Schemaless Mongo ORM for Rails 3.0}
     gem.email = "mantas@idev.lt"
     gem.homepage = "http://github.com/mantas/active_mongo"
     gem.authors = ["Mantas Masalskis"]
