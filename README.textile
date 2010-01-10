@@ -11,8 +11,8 @@ h2. Installation
 # Add to your Rails application Gemfile
 # Run gem bundle
 # Load gem. For example, create initializer that says "require 'active_mongo'"
-# Create config/mongo.yml. Format is the same as database.yml. Database, host and port are required
-# Create a model, which is a subclass of ActiveMonog::Base
+# Create config/mongo.yml. Format is the same as database.yml. Database, host and port are required. User and password are optional
+# Create a model, which is a subclass of ActiveMongo::Base
 
 h2. Usage
 
@@ -78,13 +78,45 @@ You can limit what may be assigned by passing a hash to #new or #update_attribut
   attr_accessible :attribute
 </code></pre>
 
+h3. Do not save specific field to database
+
+<pre><code>
+  attr_clear :attribute
+</code></pre>
+
+h3. Indexes
+
+<pre><code>
+  ensure_index :attribute
+  ensure_index :attribute, :unique => true
+  ensure_index [ [:attribute, Mongo::ASCENDING] ], :unique => true # takes mongo-driver syntax
+</code></pre>
+
+h3. Callbacks
+
+after initialize and before/after/around create, update and save callbacks are supported
+
+<pre><code>
+  after_save :method
+</code></pre>
+
+h4. Named Scopes
+
+<pre><code>
+  #in model
+  named_scope :with_value, :attribute => :value #all mongo_driver find() parameters accepted
+  
+  #in code
+  Model.with_value #returns scoped class
+  Model.with_value.find() #run find with scope
+  Model.with_value.new() #initialize an object with scope
+</code></pre>
+
 h2. Coming soon
 
-* Named scopes
-* Callbacks
-* Tests
-* Mongo authentication support
 * Documentation
+* Tests
+* Even more goodies
 
 h2. License
 

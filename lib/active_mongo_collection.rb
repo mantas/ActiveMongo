@@ -29,10 +29,18 @@ ActiveMongo::Base.class_eval do
       end
 
       def self.find(attrs = {})
-        if attrs.class == String
-          id = Mongo::ObjectID.from_string(attrs[0])
+        if attrs.class == String || attrs.class == Mongo::ObjectID
+          id = Mongo::ObjectID.from_string(attrs) if attrs.class == String
           
-          return self.collection.find_one(id)
+          id ||= attrs
+          
+          obj = self.collection.find_one(id)
+          
+          model = eval(self.name || @name).new
+
+          obj.each {|key, value| model.set_var(key, value)  }
+          
+          return model
         else
           attrs = self.scope.merge(attrs) if self.scope
           
@@ -61,11 +69,14 @@ ActiveMongo::Base.class_eval do
       def self.new(*attrs)
         attrs = attrs[0]
         
-        # if self.scope
-        #   attrs ||= {}
-        #   attrs.merge!(self.scope)   
-        # end
-        
         eval(self.name || @name).__old_new(attrs, :scope => self.scope)
+      end
+      
+      def self.method_missing(m, *attrs, &block)
+        if self.internal_named_scopes_get(m)
+          return self.named_scope_hit(m)
+        end
+        
+        super
       end
 end

@@ -13,6 +13,8 @@ ActiveMongo::Base.class_eval do
     attrs.each do |key, value|
       self.set_var(key, value)
     end
+    
+    _run_initializer_callbacks :after
   end
   
   def to_json
@@ -30,11 +32,51 @@ ActiveMongo::Base.class_eval do
   end
   
   def save(do_validate = true)
-    return false if do_validate && !self.valid?
     
-    id = self.class.collection.save(self.to_hash)
+    def do_save
+      hash = self.to_hash
+
+      if self.class.attr_clear_get.any?
+        hash.delete_if {|key, value| self.class.attr_clear_get.include?(key.to_sym) }
+      end
+
+      id = self.class.collection.save(hash)
+
+      self.set_var("_id", id) if self._id.nil?
+    end
     
-    self.set_var("_id", id) if self._id.nil?
+    if self.new_record?
+      
+      _run_create_callbacks do
+        _run_save_callbacks do
+        
+          if !do_validate || self.valid?
+        
+            do_save
+          
+          else
+            return false
+          end
+        end
+      end
+      
+    else
+      
+      _run_update_callbacks do
+        _run_save_callbacks do
+        
+          if !do_validate || self.valid?
+        
+            do_save
+          
+          else
+            return false
+          end
+        end
+      end
+      
+      
+    end
     
     return true
   end

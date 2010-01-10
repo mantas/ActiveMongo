@@ -5,14 +5,6 @@ module ActiveMongo
         internal_has_manies_set(name, attrs)
       end
       
-      def attr_accessible(*input)
-        @@internal_attr_accessible = []
-        
-        input.each do |field|
-          @@internal_attr_accessible.push(field.to_sym).uniq!
-        end
-      end
-      
       def internal_has_manies_set(name, attrs)
         @@internal_has_manies ||= {}
         
@@ -23,11 +15,6 @@ module ActiveMongo
         @@internal_has_manies ||= {}
         
         @@internal_has_manies[name.to_sym]
-      end
-      
-      
-      def attr_accessible_get
-        @@internal_attr_accessible || []
       end
       
     end
