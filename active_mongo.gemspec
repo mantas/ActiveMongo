@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{active_mongo}
-  s.version = "0.1.1"
+  s.version = "0.1.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Mantas Masalskis"]
@@ -14,13 +14,13 @@ Gem::Specification.new do |s|
   s.email = %q{mantas@idev.lt}
   s.extra_rdoc_files = [
     "LICENSE",
-     "README.rdoc"
+     "README.textile"
   ]
   s.files = [
     ".document",
      ".gitignore",
      "LICENSE",
-     "README.rdoc",
+     "README.textile",
      "Rakefile",
      "VERSION",
      "active_mongo.gemspec",
@@ -34,7 +34,7 @@ Gem::Specification.new do |s|
      "test/helper.rb",
      "test/test_active_mongo.rb"
   ]
-  s.homepage = %q{http://github.com/mantas/active_mongo}
+  s.homepage = %q{http://github.com/mantas/ActiveMongo}
   s.rdoc_options = ["--charset=UTF-8"]
   s.require_paths = ["lib"]
   s.rubygems_version = %q{1.3.5}
