@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Mantas Masalskis"]
   s.date = %q{2010-01-10}
-  s.description = %q{TODO: longer description of your gem}
+  s.description = %q{Schemaless Mongo ORM for Rails 3.0}
   s.email = %q{mantas@idev.lt}
   s.extra_rdoc_files = [
     "LICENSE",
@@ -38,7 +38,7 @@ Gem::Specification.new do |s|
   s.rdoc_options = ["--charset=UTF-8"]
   s.require_paths = ["lib"]
   s.rubygems_version = %q{1.3.5}
-  s.summary = %q{TODO: one-line summary of your gem}
+  s.summary = %q{Schemaless Mongo ORM for Rails 3.0}
   s.test_files = [
     "test/helper.rb",
      "test/test_active_mongo.rb"
