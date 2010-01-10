@@ -53,9 +53,6 @@ ActiveMongo::Base.class_eval do
       def self.extended(klass)
         class << klass
           alias __old_new new
-          def new(*args, &blk)
-            __old_new(*args, &blk).freeze
-          end
         end
       end    
       
@@ -64,11 +61,11 @@ ActiveMongo::Base.class_eval do
       def self.new(*attrs)
         attrs = attrs[0]
         
-        if self.scope
-          attrs ||= {}
-          attrs.merge!(self.scope)   
-        end
+        # if self.scope
+        #   attrs ||= {}
+        #   attrs.merge!(self.scope)   
+        # end
         
-        eval(self.name || @name).__old_new(attrs)
+        eval(self.name || @name).__old_new(attrs, :scope => self.scope)
       end
 end

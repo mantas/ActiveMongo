@@ -4,15 +4,11 @@ ActiveMongo::Base.class_eval do
     
     attrs = attr[0] || {}
     
-    self.class.attr_accessible_get.each do |field|
-    end
-    
-    
     if self.class.attr_accessible_get.any?
-      attrs.delete_if {|field| !self.class.attr_accessible_get.include?(field.to_sym) }
+      attrs.delete_if {|key, value| !self.class.attr_accessible_get.include?(key.to_sym) }
     end
     
-    attrs.merge!(self.class.scope) if self.class.scope
+    attrs.merge!(attr[1][:scope]) if attr[1] && attr[1][:scope]
     
     attrs.each do |key, value|
       self.set_var(key, value)
@@ -69,7 +65,7 @@ ActiveMongo::Base.class_eval do
   def update_attributes(*attrs)
     attrs = attrs[0]
     if self.class.attr_accessible_get.any?
-      attrs.delete_if {|field| !self.class.attr_accessible_get.include?(field.to_sym) }
+      attrs.delete_if {|key, value| !self.class.attr_accessible_get.include?(key.to_sym) }
     end
     
     attrs.each do |key, value|
