@@ -1,17 +1,7 @@
-= active_mongo
+ActiveMongo is a Rails 3.0 and Ruby 1.9 compatible Mongo ORM.
 
-Description goes here.
+Currently supports all common validations, find (single or many items) and has_many association.
 
-== Note on Patches/Pull Requests
- 
-* Fork the project.
-* Make your feature addition or bug fix.
-* Add tests for it. This is important so I don't break it in a
-  future version unintentionally.
-* Commit, do not mess with rakefile, version, or history.
-  (if you want to have your own version, that is fine but bump version in a commit by itself I can ignore when I pull)
-* Send me a pull request. Bonus points for topic branches.
+Feel free to it if you're adventurous.
 
-== Copyright
-
-Copyright (c) 2010 Mantas Masalskis. See LICENSE for details.
+This code is distrubuted under MIT license.
