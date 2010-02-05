@@ -4,8 +4,16 @@ include Mongo
 
 config = YAML::load(File.open("#{RAILS_ROOT}/config/mongo.yml"))[Rails.env]
 
-$mongo_conn = Connection.new(config["host"], config["port"], :pool_size => 5, :timeout => 5)
+$mongo_conn = Connection.new(config["host"], config["port"], :pool_size => 10, :timeout => 2)
 $mongo_db = $mongo_conn.db(config["database"])
+
+if defined?(PhusionPassenger)
+  PhusionPassenger.on_event(:starting_worker_process) do |forked|
+    if forked
+      $mongo_db.connect_to_master # Call db.connect_to_master to reconnect here
+    end
+  end
+end
 
 if config["user"]
   if !$mongo_db.authenticate(config["user"], config["password"])

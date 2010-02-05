@@ -8,11 +8,15 @@ module ActiveMongo
       def internal_has_manies_set(name, attrs)
         @@internal_has_manies ||= {}
         
-        @@internal_has_manies[name.to_sym] = attrs if @@internal_has_manies[name].nil?
+        name = self.name.to_s+'___'+name.to_s
+        
+        @@internal_has_manies[name.to_sym] = attrs if @@internal_has_manies[name.to_sym].nil?
       end
     
       def internal_has_manies_get(name)
         @@internal_has_manies ||= {}
+        
+        name = self.name.to_s+'___'+name.to_s
         
         @@internal_has_manies[name.to_sym]
       end
@@ -24,7 +28,7 @@ module ActiveMongo
         return false if self.new_record?
         
         attrs[:class_name] ||= name.to_s.classify
-        attrs[:foreign_key] ||= name.to_s.singularize.underscore+"_id"
+        attrs[:foreign_key] ||= self.class.name.to_s.singularize.underscore+"_id"
         
         return eval(attrs[:class_name]).with_scope(attrs[:foreign_key] => self._id )
       end

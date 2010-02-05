@@ -2,7 +2,7 @@ ActiveMongo::Base.class_eval do
   def initialize(*attr)
     @vars = []
     
-    attrs = attr[0] || {}
+    attrs = (attr[0] || {})
     
     if self.class.attr_accessible_get.any?
       attrs.delete_if {|key, value| !self.class.attr_accessible_get.include?(key.to_sym) }
@@ -27,6 +27,13 @@ ActiveMongo::Base.class_eval do
     @vars.each do |var|
       h[var] = instance_variable_get("@#{var}")
     end
+    
+    h.each do |key, value|
+      if key.to_s.match(/\_id$/) && value.class == String
+        h[key] = Mongo::ObjectID.from_string(value)
+      end
+    end
+    
     
     return h
   end
@@ -117,12 +124,12 @@ ActiveMongo::Base.class_eval do
     return self
   end
   
-  def unset(var)
+  def unset(var, do_not_save = false)
     self.set_var(var, nil)
     
     @vars.delete var.to_sym
     
-    return false if self.new_record?
+    return false if self.new_record? || do_not_save
     
     hash = self.class.collection.find_one self._id
     

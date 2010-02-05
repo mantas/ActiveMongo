@@ -8,30 +8,11 @@ Feel free to it if you're adventurous.
 
 h2. Installation
 
-1. Add to your Rails application Gemfile
-
-<pre><code>  sudo gem install active_mongo</code></pre>
-
-2. Run gem bundle
-
-<pre><code>  gem bundle</code></pre>
-
-3. Load gem. For example:
-
-<pre><code>  #config/initalizers/active_mongo.rb
-  require 'active_mongo'
-</code></pre>
-
-4. Create config/mongo.yml. Format is the same as database.yml. Database, host and port are required. User and password are optional
-
-5. Create a model
-
-<pre><code>  class Model < ActiveMongo::Base
-    validates_presence_of :attribute
-    
-    has_many :submodels
-  end
-</code></pre>
+# Add to your Rails application Gemfile
+# Run gem bundle
+# Load gem. For example, create initializer that says "require 'active_mongo'"
+# Create config/mongo.yml. Format is the same as database.yml. Database, host and port are required. User and password are optional
+# Create a model, which is a subclass of ActiveMongo::Base
 
 h2. Usage
 
@@ -41,7 +22,8 @@ All ActiveModel validations are supported. validates_uniqueness_of with optional
 
 h3. Collection methods
 
-<pre><code>  Model.find(ID) # get by ID
+<pre><code>
+  Model.find(ID) # get by ID
   Model.find #get whole collection
   Model.find(args) #run a query, args are the same as for mongo_ruby_driver 
   
@@ -51,7 +33,8 @@ h3. Collection methods
 
 h3. Create an object
 
-<pre><code>  Model.new()
+<pre><code>
+  Model.new()
   Model.new(:attribute => "value")
   
   Model.save
@@ -59,7 +42,8 @@ h3. Create an object
 
 h3. Update an object
 
-<pre><code>  object.attribute = "value" #No need to declare anywhere before setting, see?
+<pre><code>
+  object.attribute = "value" #No need to declare anywhere before setting, see?
   object.update_attributes(:attribute => "value") #does not save!
   
   object.unset(:attribute) #removes :attribute from the object and saves ONLY this change
@@ -70,12 +54,14 @@ h3. Update an object
 
 h3. Destroy object
 
-<pre><code>  object.destroy
+<pre><code>
+  object.destroy
 </code></pre>
 
 h3. HasMany Associations
 
-<pre><code>  #in model
+<pre><code>
+  #in model
   has_many :items#, :class_name => "Item", :foreign_key => "item_id"
   
   #in code
@@ -88,17 +74,20 @@ h3. Mass assignment
 
 You can limit what may be assigned by passing a hash to #new or #update_attributes with this option.
 
-<pre><code>  attr_accessible :attribute
+<pre><code>
+  attr_accessible :attribute
 </code></pre>
 
 h3. Do not save specific field to database
 
-<pre><code>  attr_clear :attribute
+<pre><code>
+  attr_clear :attribute
 </code></pre>
 
 h3. Indexes
 
-<pre><code>  ensure_index :attribute
+<pre><code>
+  ensure_index :attribute
   ensure_index :attribute, :unique => true
   ensure_index [ [:attribute, Mongo::ASCENDING] ], :unique => true # takes mongo-driver syntax
 </code></pre>
@@ -107,12 +96,14 @@ h3. Callbacks
 
 after initialize and before/after/around create, update and save callbacks are supported
 
-<pre><code>  after_save :method
+<pre><code>
+  after_save :method
 </code></pre>
 
 h4. Named Scopes
 
-<pre><code>  #in model
+<pre><code>
+  #in model
   named_scope :with_value, :attribute => :value #all mongo_driver find() parameters accepted
   
   #in code

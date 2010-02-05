@@ -28,11 +28,12 @@ ActiveMongo::Base.class_eval do
         end
       end
 
-      def self.find(attrs = {})
-        if attrs.class == String || attrs.class == Mongo::ObjectID
-          id = Mongo::ObjectID.from_string(attrs) if attrs.class == String
+      # def self.find(attrs = {})
+      def self.find(selector = nil, *attrs)
+        if selector.class == String || selector.class == Mongo::ObjectID
+          id = Mongo::ObjectID.from_string(selector) if selector.class == String
           
-          id ||= attrs
+          id ||= selector
           
           obj = self.collection.find_one(id)
           
@@ -42,11 +43,19 @@ ActiveMongo::Base.class_eval do
           
           return model
         else
-          attrs = self.scope.merge(attrs) if self.scope
+          selector = self.scope.merge(selector || {}) if self.scope
           
           ret = []
           
-          self.collection.find(attrs).to_a.map do |obj|
+          selector ||= {}
+          
+          selector.each do |key, value|
+            if key.to_s.match(/\_id$/) && value.class == String
+              selector[key] = Mongo::ObjectID.from_string(value)
+            end
+          end
+          
+          self.collection.find(selector, attrs[0] || {}).to_a.map do |obj|
             model = eval(self.name || @name).new
 
             obj.each {|key, value| model.set_var(key, value)  }
