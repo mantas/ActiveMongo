@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{active_mongo}
-  s.version = "0.2.1"
+  s.version = "0.3.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Mantas Masalskis"]
-  s.date = %q{2010-02-05}
+  s.date = %q{2010-02-06}
   s.description = %q{Schemaless Mongo ORM for Rails 3.0}
   s.email = %q{mantas@idev.lt}
   s.extra_rdoc_files = [
@@ -32,6 +32,7 @@ Gem::Specification.new do |s|
      "lib/active_mongo_instance.rb",
      "lib/active_mongo_named_scopes.rb",
      "lib/active_mongo_scope.rb",
+     "lib/active_mongo_start.rb",
      "lib/active_mongo_uniquenesss.rb",
      "test/helper.rb",
      "test/test_active_mongo.rb"
